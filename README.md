@@ -41,7 +41,7 @@ This project aims to develop a system in Go that receives a ZIP code (CEP), iden
 To get weather information for a specific ZIP code (CEP), make an HTTP GET request to the following endpoint:
 
 ```sh
-curl -X GET "http://localhost:8080/weather-check?cep=99999999"
+curl -X GET "http://localhost:8080/weather-check/99999999"
 ```
 
 Replace `99999999` with the ZIP code you want to check.

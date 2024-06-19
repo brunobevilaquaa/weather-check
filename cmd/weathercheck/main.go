@@ -1,18 +1,25 @@
 package main
 
 import (
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-	"weather-check/internal/web"
+	"weather-check/internal/adapters/api"
+	"weather-check/internal/adapters/handlers"
+	"weather-check/internal/services"
 )
 
 func main() {
-	mux := http.NewServeMux()
+	router := mux.NewRouter()
 
-	webWeatherCheckHandler := web.NewWeatherCheckHandler()
+	apiClient := api.NewClient()
 
-	mux.HandleFunc("/weather-check", webWeatherCheckHandler.GetInfo)
+	weatherService := services.NewWeatherService(apiClient)
 
-	log.Println("Server starting on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	weatherHandler := handlers.NewWeatherHandler(weatherService)
+
+	router.HandleFunc("/weather-check/{zipcode}", weatherHandler.CheckWeather).Methods(http.MethodGet)
+
+	log.Println("Server starting on port 8080...")
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
