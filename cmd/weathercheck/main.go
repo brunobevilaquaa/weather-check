@@ -18,7 +18,7 @@ func main() {
 
 	weatherHandler := handlers.NewWeatherHandler(weatherService)
 
-	router.HandleFunc("/weather-check/{zipcode}", weatherHandler.CheckWeather).Methods(http.MethodGet)
+	router.HandleFunc("/api/v1/weather-check/{zipcode}", weatherHandler.CheckWeather).Methods(http.MethodGet)
 
 	log.Println("Server starting on port 8080...")
 	log.Fatal(http.ListenAndServe(":8080", router))
